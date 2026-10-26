@@ -52,4 +52,13 @@ All visible routes meaningful, keyboard/drawer tests pass, demo labels clear.
 
 ### Run results
 
-**Status: Not Run.** This phase has no implementation or test evidence yet; no test may be reported Passed until its documented commands execute.
+**Status: Passed — 2026-10-26.** Implemented a grouped sidebar with all 16 primary navigation items (from `ux/information-architecture.md`), collapsed mode, a narrow-viewport focus-trapped drawer, breadcrumbs, a ⌘K/Ctrl+K "Go to page" command menu, a help dialog, and a dashboard with metrics, queue, recent projects, activity and quick actions. All dashboard figures come from the deterministic seed `apps/web/src/services/mock/dashboardSeed.ts` and are labelled "Demo data". Every non-dashboard route is a labelled placeholder that names the phase that delivers it and offers no action. "Create" is disabled until Phase 03.
+
+- `npm run typecheck`: pass. `npm test`: 10/10 pass. `npm run build`: pass (1660 modules). `npm audit --json`: 0 vulnerabilities.
+- TC-FE-002 (all 16 routes reach a labelled route with breadcrumb and `aria-current`): pass.
+- TC-UX-001 / AC-UI-001 (drawer traps Tab focus, Escape closes, focus returns to trigger, navigating closes the drawer): pass.
+- TC-UX-002 (collapsed sidebar keeps named links and page controls usable): pass.
+- Seed failure renders an error state with no figures: pass. Breadcrumb resolves mixed-case and trailing-slash paths the same way the router does: pass. Phase 01 regression (theme persistence, route fallback): pass. The fallback copy now says "This route is not available" and links to `/dashboard`.
+- Route navigation E2E: run in jsdom with Testing Library. A Playwright suite is **Blocked** because Playwright is not installed.
+- Browser QA (Chrome, Vite dev server): checked the desktop dashboard, collapsed rail and dark theme. A 390 px iframe showed the sidebar hidden, the drawer trigger visible, no horizontal scroll, focus inside the open drawer and focus restored on close. Fixed a horizontal scrollbar in the collapsed rail that this check found.
+- Performance baseline (dev build, unminified, StrictMode): sidebar click to the new `<h1>` painted took 66–108 ms across 8 navigations. A production-build measurement is not yet recorded.
