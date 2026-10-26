@@ -8,3 +8,4 @@ coverage/
 *.tsbuildinfo
 *.log
 diagrams/*.visual-check.*
+.dev.vars

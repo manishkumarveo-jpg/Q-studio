@@ -1,0 +1,6 @@
+# Copy to .dev.vars (git-ignored) for `npm run dev:worker`. Never commit real values.
+OWNER_USERNAME=owner
+OWNER_PASSWORD=replace-with-a-long-local-passphrase
+OWNER_DISPLAY_NAME=Studio Owner
+# Lets the Vite dev server (npm run dev) send mutations through its /api proxy.
+ALLOWED_ORIGINS=http://localhost:5173

@@ -15,7 +15,7 @@ export const navGroups: { label: string; items: NavItem[] }[] = [
       { path: "/assets", label: "All Assets", icon: Files, phase: "03", summary: "Every asset you can access, across projects." },
       { path: "/recent", label: "Recent", icon: Clock, phase: "04", summary: "Assets and projects you opened recently." },
       { path: "/favorites", label: "Favorites", icon: Star, phase: "04", summary: "Items you starred for quick access." },
-      { path: "/collections", label: "Collections", icon: Library, phase: "04", summary: "Saved metadata-driven groupings of assets." },
+      { path: "/collections", label: "Collections", icon: Library, phase: "04", summary: "Named groups that reference assets without copying them." },
     ],
   },
   {

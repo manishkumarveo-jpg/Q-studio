@@ -19,5 +19,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["apps/web/src"]
+  "include": ["apps/web/src", "packages/contracts"]
 }

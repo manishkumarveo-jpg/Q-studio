@@ -6,7 +6,11 @@ QC Studio is a Cloudflare-native media-review and episode-correction workspace f
 
 ## Status
 
-Documentation gate is complete enough to begin only Phase 1 once its checks pass. The UI currently planned for local demo mode must label simulated uploads, shares, activity, OCR, and integrations as simulated until their backend phase is complete.
+Phases 1–5 are implemented. Sign-in, owner bootstrap, sessions, members and roles are real: a Cloudflare Worker API on D1 (run locally; no deployed environment yet). Phase 5 awaits human review of the ADR-003 password-hashing record. Project, asset, dashboard and search data is still in-memory Demo data and is labelled as such; uploads, media review, OCR and integrations are not implemented.
+
+## Local development
+
+`npm install`, `npm test`, `npm run build`. To run the app with the real API and sign-in, follow [devops/owner-bootstrap.md](devops/owner-bootstrap.md) (`.dev.vars`, `npm run db:migrate:local`, `npm run dev:worker`).
 
 ## Product boundaries
 

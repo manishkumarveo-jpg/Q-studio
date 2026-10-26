@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { dashboardSeed, type DashboardSeed } from "../../services/mock/dashboardSeed";
+import { DemoBadge } from "../ui/DemoBadge";
 import { StatusState } from "../ui/StatusState";
 
 const quickActions = [
@@ -9,10 +10,6 @@ const quickActions = [
   { label: "QC corrections", to: "/qc" },
   { label: "Transfer queue", to: "/transfers" },
 ];
-
-function DemoBadge() {
-  return <span className="demo-badge">Demo data</span>;
-}
 
 export function DashboardPage({ seed = dashboardSeed }: { seed?: DashboardSeed | null }) {
   if (!seed) {
