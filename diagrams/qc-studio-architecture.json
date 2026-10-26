@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "QC Studio — Cloudflare-Native Architecture",
+    "quality_profile": "showcase",
+    "locale": "en",
+    "viewBox": [1340, 760]
+  },
+  "components": [
+    { "id": "reviewer", "type": "external", "label": "Studio users", "sublabel": "Owners, reviewers, clients", "pos": [40, 260], "size": [145, 64] },
+    { "id": "web", "type": "frontend", "label": "React SPA", "sublabel": "Vite static assets", "pos": [245, 260], "size": [145, 64] },
+    { "id": "worker", "type": "backend", "label": "Workers API", "sublabel": "Hono + policy checks", "pos": [460, 260], "size": [155, 64] },
+    { "id": "auth", "type": "security", "label": "First-party auth", "sublabel": "Sessions, CSRF, rate limits", "pos": [460, 105], "size": [155, 64] },
+    { "id": "d1", "type": "database", "label": "D1", "sublabel": "Metadata, audit, sessions", "pos": [690, 190], "size": [145, 64] },
+    { "id": "r2", "type": "cloud", "label": "Private R2", "sublabel": "Originals + derived media", "pos": [690, 340], "size": [145, 64] },
+    { "id": "do", "type": "backend", "label": "Durable Objects", "sublabel": "Authorized presence", "pos": [920, 120], "size": [155, 64] },
+    { "id": "queue", "type": "messagebus", "label": "Cloudflare Queues", "sublabel": "Idempotent media jobs", "pos": [920, 300], "size": [155, 64] },
+    { "id": "media", "type": "backend", "label": "Media runtime", "sublabel": "FFmpeg / local OCR adapter", "pos": [1150, 300], "size": [175, 64] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Cloudflare application platform", "wraps": ["web", "worker", "auth", "d1", "r2", "do", "queue"] },
+    { "kind": "security-group", "label": "Server-side trusted boundary", "wraps": ["worker", "auth", "d1", "r2", "do", "queue"] }
+  ],
+  "connections": [
+    { "id": "user-web", "from": "reviewer", "to": "web", "label": "HTTPS", "variant": "emphasis" },
+    { "id": "web-api", "from": "web", "to": "worker", "label": "cookie-auth API", "labelAt": [425, 338] },
+    { "id": "worker-auth", "from": "worker", "to": "auth", "label": "verify session", "variant": "security", "fromSide": "top", "toSide": "bottom" },
+    { "id": "worker-d1", "from": "worker", "to": "d1", "label": "scoped SQL" },
+    { "id": "worker-r2", "from": "worker", "to": "r2", "label": "authorize object access", "labelAt": [653, 338] },
+    { "id": "worker-do", "from": "worker", "to": "do", "label": "room authorization" },
+    { "id": "worker-queue", "from": "worker", "to": "queue", "label": "enqueue job", "variant": "dashed" },
+    { "id": "queue-media", "from": "queue", "to": "media", "label": "retry-safe processing", "variant": "dashed", "labelAt": [1113, 378] },
+    { "id": "media-r2", "from": "media", "to": "r2", "label": "write derivative", "fromSide": "bottom", "toSide": "right" }
+  ],
+  "cards": [
+    { "dot": "emerald", "title": "Source of truth", "items": ["D1 stores structured records; R2 stores binaries.", "Comments retain their asset-version identity."] },
+    { "dot": "rose", "title": "Production guardrail", "items": ["Native FFmpeg and OCR do not run in ordinary Workers.", "Use a local worker in development and paid Containers or another documented runtime in production."] }
+  ]
+}
